@@ -32,7 +32,6 @@ const planeMaterial = new THREE.MeshStandardMaterial({
 const surface = new THREE.Mesh(planeGeometry, planeMaterial);
 scene.add(surface);
 
-// HTML overlay with expanded explanation
 const overlay = document.createElement('div');
 overlay.style.position = 'absolute';
 overlay.style.top = '10px';
@@ -55,7 +54,7 @@ overlay.innerHTML = `
   <p><strong>Axes:</strong><br/>X: Stock Price (S)<br/>Y: Option Value (C)<br/>Z: Time to Expiration (T)</p>
   <p><strong>Interpretation:</strong><br/>
     Higher points on the surface represent higher option values. The curvature reflects how sensitive the price is to changes in volatility, time, and strike.<br/>
-    You are looking at how the "heat" (value) flows across the space of possible prices.
+    You are looking at how the "heat" (value) flows across the space of possible prices — with time steps animated to simulate real temperature diffusion.
   </p>
 `;
 document.body.appendChild(overlay);
@@ -83,34 +82,6 @@ function blackScholesPrice(S, K, T, r, sigma, type) {
   }
 }
 
-// Grid configuration
-const S_min = 100, S_max = 200, T_min = 0.01, T_max = 1;
-const K = 150, r = 0.045, sigma = 0.25;
-const geom = surface.geometry;
-const pos = geom.attributes.position;
-const colors = [];
-
-for (let i = 0; i < pos.count; i++) {
-  const x = pos.getX(i); // from -50 to 50
-  const z = pos.getZ(i); // from -50 to 50
-  const S = S_min + (x + 50) / 100 * (S_max - S_min);
-  const T = T_min + (z + 50) / 100 * (T_max - T_min);
-  const C = blackScholesPrice(S, K, T, r, sigma, 'call');
-  pos.setY(i, C * 2); // scale height
-  const c = C / 30; // normalize for color
-  colors.push(c, 0.2 + 0.8 * c, 1 - c);
-
-  // Add label to certain points
-  if (i % 100 === 0) {
-    const sprite = makeTextSprite(`S=${S.toFixed(0)},T=${T.toFixed(2)},C=${C.toFixed(2)}`);
-    sprite.position.set(x, C * 2 + 2, z);
-    scene.add(sprite);
-  }
-}
-
-geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-geom.computeVertexNormals();
-
 function makeTextSprite(message) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
@@ -124,10 +95,67 @@ function makeTextSprite(message) {
   return sprite;
 }
 
+const S_min = 100, S_max = 200, T_min = 0.01, T_max = 1;
+const K = 150, r = 0.045, sigma = 0.25;
+const geom = surface.geometry;
+const pos = geom.attributes.position;
+const baseY = new Float32Array(pos.count);
+const colors = [];
+const labelSprites = [];
+
+for (let i = 0; i < pos.count; i++) {
+  const x = pos.getX(i);
+  const z = pos.getZ(i);
+  const S = S_min + (x + 50) / 100 * (S_max - S_min);
+  const T = T_max;
+  const C = blackScholesPrice(S, K, T, r, sigma, 'call');
+  baseY[i] = C;
+  pos.setY(i, C * 2);
+  const c = C / 30;
+  colors.push(c, 0.2 + 0.8 * c, 1 - c);
+
+  if (i % 100 === 0) {
+    const label = makeTextSprite(`S=${S.toFixed(0)} T=${T.toFixed(2)}\nC=${C.toFixed(2)}`);
+    label.position.set(x, C * 2 + 2, z);
+    scene.add(label);
+    labelSprites.push(label);
+  }
+}
+
+geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+geom.computeVertexNormals();
+
 const clock = new THREE.Clock();
+const decaySpeed = 0.1;
 
 function animate() {
   requestAnimationFrame(animate);
+  const time = clock.getElapsedTime();
+
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const z = pos.getZ(i);
+    const S = S_min + (x + 50) / 100 * (S_max - S_min);
+    const T = Math.max(T_min, T_max - decaySpeed * time % T_max);
+    const C = blackScholesPrice(S, K, T, r, sigma, 'call');
+    pos.setY(i, C * 2);
+    const c = C / 30;
+    colors[i * 3] = c;
+    colors[i * 3 + 1] = 0.2 + 0.8 * c;
+    colors[i * 3 + 2] = 1 - c;
+  }
+
+  for (let j = 0; j < labelSprites.length; j++) {
+    const label = labelSprites[j];
+    const i = j * 100;
+    const y = pos.getY(i);
+    label.position.y = y + 2;
+  }
+
+  geom.attributes.position.needsUpdate = true;
+  geom.attributes.color.needsUpdate = true;
+  geom.computeVertexNormals();
+
   controls.update();
   renderer.render(scene, camera);
 }
