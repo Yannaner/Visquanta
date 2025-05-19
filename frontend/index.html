@@ -3,10 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Black-Scholes Visualization</title>
+    <title>Visquanta: Interactive Financial Visualizations</title>
+    <!-- React & Framer Motion CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+    <style>
+      html, body, #root {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #0a1836 0%, #1a2747 100%);
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #eaf6ff;
+        min-height: 100vh;
+      }
+      #root {
+        height: 100vh;
+      }
+    </style>
   </head>
   <body>
-    <!-- The script below is your entry point -->
-    <script type="module" src="./src/binomial_random_walk/index.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

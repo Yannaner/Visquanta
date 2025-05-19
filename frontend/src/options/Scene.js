@@ -21,7 +21,7 @@ class Scene {
         this.rollerCoaster = new RollerCoaster(this.scene);
         this.player = new Player(this.scene, this.rollerCoaster);
 
-        this.totalSimTime = 60; //The time of waiting
+        this.totalSimTime = 15; //The time of waiting
         this.timeRemaining = this.totalSimTime;
         this.gameState = 'initial_scenario';
         this.userChoice = null;
