@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "frontend": "file:",
+    "lil-gui": "^0.20.0",
     "three": "^0.176.0"
   }
 }
