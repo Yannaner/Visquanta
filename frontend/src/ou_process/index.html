@@ -7,25 +7,45 @@
   <style>
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
+
     #controls {
       position: absolute;
-      top: 10px;
+      top: 5px;             /* moved up */
       left: 10px;
       background: rgba(255, 255, 255, 0.8);
       padding: 10px;
       font-family: sans-serif;
       border-radius: 6px;
     }
-    label {
-      display: block;
-      margin-bottom: 8px;
+    #controls label { display: block; margin-bottom: 8px; }
+
+    /* Centered banner, shifted upward */
+    #banner {
+      position: absolute;
+      top: 10%;             /* higher on screen */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px 30px;
+      border-radius: 8px;
+      font-family: sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      text-align: center;
+      pointer-events: none;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
   <div id="controls">
-    <label>Theta: <input type="range" id="theta" min="0.1" max="5" step="0.1" value="1" /></label>
+    <label>Theta: <input type="range" id="theta" min="0.1" max="5" step="0.1" value="5" /></label>
     <label>Sigma: <input type="range" id="sigma" min="0" max="2" step="0.1" value="0.5" /></label>
+  </div>
+
+  <div id="banner">
+    Try to make the pendulum stay inside the yellow circle
   </div>
 
   <script type="module" src="./main.js"></script>
