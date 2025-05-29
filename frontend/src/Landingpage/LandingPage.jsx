@@ -4,28 +4,33 @@ const sims = [
     title: "Options Ride",
     desc: "Experience options trading through an interactive amusement park simulation",
     url: "/src/options/Scene.html",
-    category: "Interactive",
-    difficulty: "Beginner"
+    category: "Finance"
   },
   {
     emoji: "🌳",
     title: "Binomial Random Walk",
     desc: "Visualize probability trees and stochastic processes in real-time",
     url: "/src/binomial_random_walk/index.html",
-    category: "Mathematical",
-    difficulty: "Intermediate"
+    category: "Mathematical"
   },
   {
     emoji: "🔥",
     title: "Black-Scholes Surface",
     desc: "Explore option pricing through heat diffusion visualization",
     url: "/src/blackscholes/blackscholes.html",
-    category: "Advanced",
-    difficulty: "Advanced"
+    category: "Finance"
+  },
+  {
+    emoji:"🌟",
+    title: "Ornstein-Uhlenbeck process",
+    desc: "Mean reversion simulation with spring damping", 
+    url:"/src/ou_process/index.html",
+    category:"Finance"
   }
 ];
 
 function SimulationCard({ sim, index }) {
+  //Place to create different color gradient for the cards
   const gradients = [
     "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
@@ -75,7 +80,7 @@ function SimulationCard({ sim, index }) {
           fontWeight: "600",
           border: "1px solid rgba(255, 255, 255, 0.2)"
         }}>
-          {sim.difficulty}
+          {sim.category}
         </div>
       </div>
       
@@ -398,6 +403,13 @@ export default function LandingPage() {
                 <strong style={{ color: "#1f2937" }}>Black-Scholes</strong>
                 <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
                   Heat diffusion modeling
+                </span>
+              </div>
+              <div style={{ padding: "8px 0" }}>
+                <span style={{ fontSize: "1.2rem", marginRight: "8px" }}>🌟</span>
+                <strong style={{ color: "#1f2937" }}>Ornstein-Uhlenbeck</strong>
+                <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
+                  Mean reversion with spring damping
                 </span>
               </div>
             </div>

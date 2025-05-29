@@ -16,6 +16,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "cannon": "^0.6.2",
     "framer-motion": "^12.12.1",
     "frontend": "file:",
     "lil-gui": "^0.20.0",
