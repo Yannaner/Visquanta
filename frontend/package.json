@@ -17,9 +17,12 @@
   },
   "dependencies": {
     "cannon": "^0.6.2",
-    "framer-motion": "^12.12.1",
+    "framer-motion": "^12.15.0",
     "frontend": "file:",
     "lil-gui": "^0.20.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
     "three": "^0.176.0"
   }
 }
