@@ -1,31 +1,41 @@
+import { FaRocket, FaTree, FaFire, FaStar, FaGithub, FaExternalLinkAlt, FaChartLine, FaPlay, FaInfoCircle, FaBook } from 'react-icons/fa';
+import { IconWrapper } from './elements';
+
 const sims = [
   {
-    emoji: "🎢",
+    icon: <FaRocket />,
     title: "Options Ride",
     desc: "Experience options trading through an interactive amusement park simulation",
-    url: "/src/options/Scene.html",
+    url: "/src/options/index.html",
     category: "Finance"
   },
   {
-    emoji: "🌳",
+    icon: <FaTree />,
     title: "Binomial Random Walk",
     desc: "Visualize probability trees and stochastic processes in real-time",
     url: "/src/binomial_random_walk/index.html",
     category: "Mathematical"
   },
   {
-    emoji: "🔥",
+    icon: <FaFire />,
     title: "Black-Scholes Surface",
     desc: "Explore option pricing through heat diffusion visualization",
-    url: "/src/blackscholes/blackscholes.html",
+    url: "/src/blackscholes/index.html",
     category: "Finance"
   },
   {
-    emoji:"🌟",
+    icon: <FaStar />,
     title: "Ornstein-Uhlenbeck process",
     desc: "Mean reversion simulation with spring damping", 
-    url:"/src/ou_process/index.html",
-    category:"Finance"
+    url: "/src/ou_process/index.html",
+    category: "Finance"
+  },
+  {
+    icon: <FaStar />,
+    title: "Normal Distribution",
+    desc: "Showing everything falls into normal distribution", 
+    url: "/src/normal_distribution/index.html",
+    category: "Mathematical"
   }
 ];
 
@@ -66,7 +76,9 @@ function SimulationCard({ sim, index }) {
         justifyContent: "center",
         position: "relative"
       }}>
-        <span style={{ fontSize: "3.5rem" }}>{sim.emoji}</span>
+        <IconWrapper size="3.5rem" style={{ color: "white" }}>
+          {sim.icon}
+        </IconWrapper>
         <div style={{
           position: "absolute",
           top: "16px",
@@ -143,7 +155,7 @@ function SimulationCard({ sim, index }) {
           }}
         >
           <span>Explore Project</span>
-          <span style={{ marginLeft: "8px", fontSize: "1rem" }}>→</span>
+          <FaExternalLinkAlt style={{ marginLeft: "8px", fontSize: "0.9rem" }} />
         </button>
       </div>
     </div>
@@ -151,6 +163,13 @@ function SimulationCard({ sim, index }) {
 }
 
 export default function LandingPage() {
+  const scrollToDemo = () => {
+    const demoSection = document.getElementById('demonstrations');
+    if (demoSection) {
+      demoSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div style={{
       minHeight: "100vh",
@@ -186,7 +205,7 @@ export default function LandingPage() {
               justifyContent: "center",
               marginRight: "12px"
             }}>
-              <span style={{ color: "white", fontSize: "1.2rem", fontWeight: "700" }}>V</span>
+              <FaChartLine style={{ color: "white", fontSize: "1.2rem" }} />
             </div>
             <div>
               <h1 style={{
@@ -206,31 +225,71 @@ export default function LandingPage() {
             </div>
           </div>
           
-          <a 
-            href="https://github.com/Yannaner/Visquanta"
-            style={{
-              background: "linear-gradient(135deg, #1f2937 0%, #111827 100%)",
-              color: "white",
-              padding: "10px 20px",
-              borderRadius: "10px",
-              fontSize: "0.85rem",
-              fontWeight: "600",
-              textDecoration: "none",
-              transition: "all 0.3s ease",
-              border: "1px solid rgba(255, 255, 255, 0.1)"
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 8px 20px rgba(31, 41, 55, 0.3)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
-          >
-            <span>View on GitHub</span>
-            <span style={{ marginLeft: "6px" }}>↗</span>
-          </a>
+          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+            <a 
+              href="https://github.com/Yannaner/Visquanta/blob/main/README.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: "rgba(255, 255, 255, 0.8)",
+                color: "#374151",
+                padding: "10px 20px",
+                borderRadius: "10px",
+                fontSize: "0.85rem",
+                fontWeight: "600",
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+                border: "1px solid #d1d5db",
+                display: "flex",
+                alignItems: "center"
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = "white";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.1)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = "rgba(255, 255, 255, 0.8)";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <FaBook style={{ marginRight: "6px" }} />
+              <span>Learn More</span>
+              <FaExternalLinkAlt style={{ marginLeft: "6px", fontSize: "0.8rem" }} />
+            </a>
+            
+            <a 
+              href="https://github.com/Yannaner/Visquanta"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: "linear-gradient(135deg, #1f2937 0%, #111827 100%)",
+                color: "white",
+                padding: "10px 20px",
+                borderRadius: "10px",
+                fontSize: "0.85rem",
+                fontWeight: "600",
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                display: "flex",
+                alignItems: "center"
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(31, 41, 55, 0.3)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <FaGithub style={{ marginRight: "6px" }} />
+              <span>View on GitHub</span>
+              <FaExternalLinkAlt style={{ marginLeft: "6px", fontSize: "0.8rem" }} />
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -279,51 +338,32 @@ export default function LandingPage() {
           </p>
           
           <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
-            <button style={{
-              background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-              color: "white",
-              border: "none",
-              padding: "16px 32px",
-              borderRadius: "14px",
-              fontSize: "1rem",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.3s ease"
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = "translateY(-3px)";
-              e.currentTarget.style.boxShadow = "0 12px 25px rgba(59, 130, 246, 0.4)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
+            <button 
+              onClick={scrollToDemo}
+              style={{
+                background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+                color: "white",
+                border: "none",
+                padding: "16px 32px",
+                borderRadius: "14px",
+                fontSize: "1rem",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                display: "flex",
+                alignItems: "center"
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 12px 25px rgba(59, 130, 246, 0.4)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
             >
+              <FaPlay style={{ marginRight: "8px" }} />
               Start Exploring
-            </button>
-            <button style={{
-              background: "rgba(255, 255, 255, 0.8)",
-              color: "#374151",
-              border: "1px solid #d1d5db",
-              padding: "16px 32px",
-              borderRadius: "14px",
-              fontSize: "1rem",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.3s ease"
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.background = "white";
-              e.currentTarget.style.transform = "translateY(-3px)";
-              e.currentTarget.style.boxShadow = "0 12px 25px rgba(0, 0, 0, 0.1)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.background = "rgba(255, 255, 255, 0.8)";
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
-            >
-              Learn More
             </button>
           </div>
         </div>
@@ -385,28 +425,36 @@ export default function LandingPage() {
               textAlign: "left"
             }}>
               <div style={{ padding: "8px 0" }}>
-                <span style={{ fontSize: "1.2rem", marginRight: "8px" }}>🎢</span>
+                <IconWrapper size="1.2rem" style={{ marginRight: "8px", display: "inline-flex" }}>
+                  <FaRocket />
+                </IconWrapper>
                 <strong style={{ color: "#1f2937" }}>Options Ride</strong>
                 <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
                   Gamified options trading experience
                 </span>
               </div>
               <div style={{ padding: "8px 0" }}>
-                <span style={{ fontSize: "1.2rem", marginRight: "8px" }}>🌳</span>
+                <IconWrapper size="1.2rem" style={{ marginRight: "8px", display: "inline-flex" }}>
+                  <FaTree />
+                </IconWrapper>
                 <strong style={{ color: "#1f2937" }}>Binomial Trees</strong>
                 <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
                   Dynamic probability visualization
                 </span>
               </div>
               <div style={{ padding: "8px 0" }}>
-                <span style={{ fontSize: "1.2rem", marginRight: "8px" }}>🔥</span>
+                <IconWrapper size="1.2rem" style={{ marginRight: "8px", display: "inline-flex" }}>
+                  <FaFire />
+                </IconWrapper>
                 <strong style={{ color: "#1f2937" }}>Black-Scholes</strong>
                 <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
                   Heat diffusion modeling
                 </span>
               </div>
               <div style={{ padding: "8px 0" }}>
-                <span style={{ fontSize: "1.2rem", marginRight: "8px" }}>🌟</span>
+                <IconWrapper size="1.2rem" style={{ marginRight: "8px", display: "inline-flex" }}>
+                  <FaStar />
+                </IconWrapper>
                 <strong style={{ color: "#1f2937" }}>Ornstein-Uhlenbeck</strong>
                 <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
                   Mean reversion with spring damping
@@ -418,11 +466,14 @@ export default function LandingPage() {
       </section>
 
       {/* Enhanced Demonstrations Grid */}
-      <section style={{
-        padding: "60px 24px 100px",
-        maxWidth: "1200px",
-        margin: "0 auto"
-      }}>
+      <section 
+        id="demonstrations"
+        style={{
+          padding: "60px 24px 100px",
+          maxWidth: "1200px",
+          margin: "0 auto"
+        }}
+      >
         <div style={{ textAlign: "center", marginBottom: "50px" }}>
           <h2 style={{
             fontSize: "2.2rem",
@@ -489,6 +540,7 @@ export default function LandingPage() {
             e.currentTarget.style.boxShadow = "none";
           }}
           >
+            <FaGithub style={{ marginRight: "8px" }} />
             View GitHub Repository
           </a>
           <p style={{
