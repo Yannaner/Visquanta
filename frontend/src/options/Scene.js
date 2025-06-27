@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
-import Weather from './Weather';
+import Weather from './weather';
 import OptionsEngine from './OptionsEngine';
 import RollerCoaster from './RollerCoaster';
 import Player from './Player';
