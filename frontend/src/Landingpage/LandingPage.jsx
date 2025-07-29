@@ -1,128 +1,159 @@
-import { FaRocket, FaTree, FaFire, FaStar, FaGithub, FaExternalLinkAlt, FaChartLine, FaPlay, FaInfoCircle, FaBook } from 'react-icons/fa';
-import { IconWrapper } from './elements';
+import { FaRocket, FaTree, FaFire, FaStar, FaGithub, FaExternalLinkAlt, FaChartLine, FaPlay, FaArrowDown } from 'react-icons/fa';
+import { IconWrapper } from './components/elements';
+import Particles from './background/particles.jsx';
+import ChromaGrid from './components/ChromaGrid.jsx';
 
 const sims = [
   {
     icon: <FaRocket />,
     title: "Options Ride",
-    desc: "Experience options trading through an interactive amusement park simulation",
+    subtitle: "Experience options trading through an interactive amusement park simulation",
+    handle: "Finance",
     url: "/src/options/index.html",
-    category: "Finance"
+    borderColor: "#000000"
   },
   {
     icon: <FaTree />,
     title: "Binomial Random Walk",
-    desc: "Visualize probability trees and stochastic processes in real-time",
+    subtitle: "Visualize probability trees and stochastic processes in real-time",
+    handle: "Mathematical",
     url: "/src/binomial_random_walk/index.html",
-    category: "Mathematical"
+    borderColor: "#000000"
   },
   {
     icon: <FaFire />,
     title: "Black-Scholes Surface",
-    desc: "Explore option pricing through heat diffusion visualization",
+    subtitle: "Explore option pricing through heat diffusion visualization",
+    handle: "Finance",
     url: "/src/blackscholes/index.html",
-    category: "Finance"
+    borderColor: "#000000"
   },
   {
     icon: <FaStar />,
-    title: "Ornstein-Uhlenbeck process",
-    desc: "Mean reversion simulation with spring damping", 
+    title: "Ornstein-Uhlenbeck Process",
+    subtitle: "Mean reversion simulation with spring damping", 
+    handle: "Finance",
     url: "/src/ou_process/index.html",
-    category: "Finance"
+    borderColor: "#000000"
   },
   {
-    icon: <FaStar />,
+    icon: <FaChartLine />,
     title: "Normal Distribution",
-    desc: "Showing everything falls into normal distribution", 
+    subtitle: "Showing everything falls into normal distribution", 
+    handle: "Mathematical",
     url: "/src/normal_distribution/index.html",
-    category: "Mathematical"
+    borderColor: "#000000"
   }
 ];
 
 function SimulationCard({ sim, index }) {
-  //Place to create different color gradient for the cards
   const gradients = [
-    "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-    "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-    "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+    "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+    "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
+    "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)",
+    "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+    "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)"
   ];
 
   return (
     <div
       style={{
-        background: "white",
-        borderRadius: "20px",
+        background: "rgba(255, 255, 255, 0.05)",
+        borderRadius: "24px",
         padding: "0",
-        boxShadow: "0 8px 25px rgba(0, 0, 0, 0.08)",
-        border: "1px solid #e5e7eb",
-        transition: "all 0.4s ease",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         overflow: "hidden",
-        position: "relative"
+        position: "relative",
+        backdropFilter: "blur(10px)"
       }}
       onMouseOver={(e) => {
-        e.currentTarget.style.transform = "translateY(-8px) scale(1.02)";
-        e.currentTarget.style.boxShadow = "0 20px 40px rgba(0, 0, 0, 0.15)";
+        e.currentTarget.style.transform = "translateY(-12px) scale(1.03)";
+        e.currentTarget.style.boxShadow = "0 25px 50px rgba(0, 0, 0, 0.3)";
+        e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.2)";
       }}
       onMouseOut={(e) => {
         e.currentTarget.style.transform = "translateY(0) scale(1)";
-        e.currentTarget.style.boxShadow = "0 8px 25px rgba(0, 0, 0, 0.08)";
+        e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.2)";
+        e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.1)";
       }}
     >
       <div style={{
         background: gradients[index % gradients.length],
-        height: "140px",
+        height: "160px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        position: "relative"
+        position: "relative",
+        overflow: "hidden"
       }}>
-        <IconWrapper size="3.5rem" style={{ color: "white" }}>
-          {sim.icon}
-        </IconWrapper>
+        {/* Decorative circles */}
         <div style={{
           position: "absolute",
-          top: "16px",
-          right: "16px",
-          background: "rgba(255, 255, 255, 0.25)",
+          top: "-50px",
+          right: "-50px",
+          width: "100px",
+          height: "100px",
+          background: "rgba(255, 255, 255, 0.1)",
+          borderRadius: "50%",
+          filter: "blur(20px)"
+        }} />
+        <div style={{
+          position: "absolute",
+          bottom: "-30px",
+          left: "-30px",
+          width: "60px",
+          height: "60px",
+          background: "rgba(255, 255, 255, 0.1)",
+          borderRadius: "50%",
+          filter: "blur(15px)"
+        }} />
+
+        <IconWrapper size="4rem" style={{ 
+          color: "white", 
+          position: "relative", 
+          zIndex: 2,
+          filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))"
+        }}>
+          {sim.icon}
+        </IconWrapper>
+        
+        <div style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          background: "rgba(255, 255, 255, 0.2)",
           backdropFilter: "blur(10px)",
-          padding: "6px 12px",
+          padding: "8px 16px",
           borderRadius: "20px",
-          fontSize: "0.75rem",
+          fontSize: "0.8rem",
           color: "white",
-          fontWeight: "600",
-          border: "1px solid rgba(255, 255, 255, 0.2)"
+          fontWeight: "700",
+          border: "1px solid rgba(255, 255, 255, 0.3)",
+          textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)"
         }}>
           {sim.category}
         </div>
       </div>
       
-      <div style={{ padding: "24px" }}>
-        <div style={{ marginBottom: "16px" }}>
+      <div style={{ padding: "32px 28px" }}>
+        <div style={{ marginBottom: "20px" }}>
           <h3 style={{
-            fontSize: "1.3rem",
-            fontWeight: "700",
-            color: "#1f2937",
-            margin: "0 0 8px 0"
+            fontSize: "1.4rem",
+            fontWeight: "800",
+            color: "white",
+            margin: "0 0 12px 0",
+            textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)"
           }}>
             {sim.title}
           </h3>
-          <span style={{
-            background: "#f1f5f9",
-            color: "#475569",
-            padding: "4px 10px",
-            borderRadius: "12px",
-            fontSize: "0.75rem",
-            fontWeight: "500"
-          }}>
-            {sim.category}
-          </span>
         </div>
         
         <p style={{
-          color: "#6b7280",
-          fontSize: "0.9rem",
-          lineHeight: "1.5",
-          margin: "0 0 24px 0"
+          color: "rgba(255, 255, 255, 0.8)",
+          fontSize: "0.95rem",
+          lineHeight: "1.6",
+          margin: "0 0 28px 0"
         }}>
           {sim.desc}
         </p>
@@ -133,29 +164,30 @@ function SimulationCard({ sim, index }) {
             background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
             color: "white",
             border: "none",
-            padding: "14px 24px",
-            borderRadius: "12px",
-            fontSize: "0.9rem",
-            fontWeight: "600",
+            padding: "16px 28px",
+            borderRadius: "16px",
+            fontSize: "0.95rem",
+            fontWeight: "700",
             cursor: "pointer",
             width: "100%",
             transition: "all 0.3s ease",
             position: "relative",
-            overflow: "hidden"
+            overflow: "hidden",
+            boxShadow: "0 8px 20px rgba(59, 130, 246, 0.3)"
           }}
           onMouseOver={(e) => {
             e.currentTarget.style.background = "linear-gradient(135deg, #2563eb 0%, #1e40af 100%)";
-            e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 8px 20px rgba(59, 130, 246, 0.4)";
+            e.currentTarget.style.transform = "translateY(-3px)";
+            e.currentTarget.style.boxShadow = "0 12px 30px rgba(59, 130, 246, 0.5)";
           }}
           onMouseOut={(e) => {
             e.currentTarget.style.background = "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)";
             e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "none";
+            e.currentTarget.style.boxShadow = "0 8px 20px rgba(59, 130, 246, 0.3)";
           }}
         >
           <span>Explore Project</span>
-          <FaExternalLinkAlt style={{ marginLeft: "8px", fontSize: "0.9rem" }} />
+          <FaExternalLinkAlt style={{ marginLeft: "10px", fontSize: "0.9rem" }} />
         </button>
       </div>
     </div>
@@ -163,157 +195,101 @@ function SimulationCard({ sim, index }) {
 }
 
 export default function LandingPage() {
-  const scrollToDemo = () => {
-    const demoSection = document.getElementById('demonstrations');
-    if (demoSection) {
-      demoSection.scrollIntoView({ behavior: 'smooth' });
+  const scrollToProjects = () => {
+    const projectsSection = document.getElementById('projects');
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
     <div style={{
       minHeight: "100vh",
-      background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+      background: "linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2a2a2a 100%)",
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      overflow: "hidden"
     }}>
-      {/* Enhanced Navigation */}
-      <nav style={{
-        background: "rgba(255, 255, 255, 0.95)",
-        backdropFilter: "blur(10px)",
-        borderBottom: "1px solid rgba(229, 231, 235, 0.8)",
-        position: "sticky",
-        top: 0,
-        zIndex: 100
+      {/* Hero Section with Particles Background */}
+      <section style={{
+        position: "relative",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        overflow: "hidden"
       }}>
-        <div style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 24px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: "70px"
+        {/* Particles Background */}
+        <div style={{ 
+          position: "absolute", 
+          top: 0, 
+          left: 0, 
+          width: "100%", 
+          height: "100%",
+          zIndex: 1
         }}>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <Particles
+            particleColors={['#ffffff', '#cccccc', '#888888']}
+            particleCount={200}
+            moveParticlesOnHover={true}
+          />
+        </div>
+
+        {/* Hero Content */}
+        <div style={{
+          position: "relative",
+          zIndex: 2,
+          maxWidth: "1000px",
+          padding: "0 24px"
+        }}>
+          {/* Logo/Brand */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "32px"
+          }}>
             <div style={{
-              width: "36px",
-              height: "36px",
-              background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-              borderRadius: "10px",
+              width: "64px",
+              height: "64px",
+              background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
+              borderRadius: "20px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginRight: "12px"
+              marginRight: "16px",
+              boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)"
             }}>
-              <FaChartLine style={{ color: "white", fontSize: "1.2rem" }} />
+              <FaChartLine style={{ color: "white", fontSize: "2rem" }} />
             </div>
             <div>
               <h1 style={{
-                fontSize: "1.5rem",
-                fontWeight: "700",
-                color: "#1f2937",
-                margin: "0"
+                fontSize: "2.5rem",
+                fontWeight: "800",
+                color: "white",
+                margin: "0",
+                textShadow: "0 4px 20px rgba(0, 0, 0, 0.3)"
               }}>
                 Visquanta
               </h1>
               <span style={{
-                fontSize: "0.8rem",
-                color: "#6b7280"
+                fontSize: "1rem",
+                color: "rgba(255, 255, 255, 0.7)",
+                fontWeight: "500"
               }}>
                 Financial Visualizations
               </span>
             </div>
           </div>
-          
-          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-            <a 
-              href="https://github.com/Yannaner/Visquanta/blob/main/README.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: "rgba(255, 255, 255, 0.8)",
-                color: "#374151",
-                padding: "10px 20px",
-                borderRadius: "10px",
-                fontSize: "0.85rem",
-                fontWeight: "600",
-                textDecoration: "none",
-                transition: "all 0.3s ease",
-                border: "1px solid #d1d5db",
-                display: "flex",
-                alignItems: "center"
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.background = "white";
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.1)";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.background = "rgba(255, 255, 255, 0.8)";
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <FaBook style={{ marginRight: "6px" }} />
-              <span>Learn More</span>
-              <FaExternalLinkAlt style={{ marginLeft: "6px", fontSize: "0.8rem" }} />
-            </a>
-            
-            <a 
-              href="https://github.com/Yannaner/Visquanta"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: "linear-gradient(135deg, #1f2937 0%, #111827 100%)",
-                color: "white",
-                padding: "10px 20px",
-                borderRadius: "10px",
-                fontSize: "0.85rem",
-                fontWeight: "600",
-                textDecoration: "none",
-                transition: "all 0.3s ease",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                display: "flex",
-                alignItems: "center"
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = "0 8px 20px rgba(31, 41, 55, 0.3)";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <FaGithub style={{ marginRight: "6px" }} />
-              <span>View on GitHub</span>
-              <FaExternalLinkAlt style={{ marginLeft: "6px", fontSize: "0.8rem" }} />
-            </a>
-          </div>
-        </div>
-      </nav>
 
-      {/* Enhanced Hero Section */}
-      <section style={{
-        padding: "80px 24px",
-        textAlign: "center",
-        maxWidth: "1200px",
-        margin: "0 auto"
-      }}>
-        <div style={{
-          background: "rgba(255, 255, 255, 0.8)",
-          backdropFilter: "blur(10px)",
-          borderRadius: "24px",
-          padding: "60px 40px",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
-          boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)"
-        }}>
+          {/* Main Heading */}
           <h1 style={{
-            fontSize: "3.2rem",
-            fontWeight: "800",
-            color: "#1f2937",
-            margin: "0 0 20px 0",
-            lineHeight: "1.1"
+            fontSize: "4rem",
+            fontWeight: "900",
+            color: "white",
+            margin: "0 0 24px 0",
+            lineHeight: "1.1",
+            textShadow: "0 4px 30px rgba(0, 0, 0, 0.4)"
           }}>
             Interactive Financial
             <br />
@@ -323,235 +299,281 @@ export default function LandingPage() {
               WebkitTextFillColor: "transparent",
               backgroundClip: "text"
             }}>
-              Visualizations
+              Mathematics
             </span>
           </h1>
+
+          {/* Subtitle */}
           <p style={{
-            fontSize: "1.2rem",
-            color: "#6b7280",
-            maxWidth: "650px",
-            margin: "0 auto 40px auto",
-            lineHeight: "1.6"
+            fontSize: "1.4rem",
+            color: "rgba(255, 255, 255, 0.8)",
+            maxWidth: "700px",
+            margin: "0 auto 48px auto",
+            lineHeight: "1.6",
+            textShadow: "0 2px 10px rgba(0, 0, 0, 0.3)"
           }}>
-            A personal project exploring quantitative finance through interactive visualizations. 
-            Built to make complex financial mathematics more intuitive and accessible.
+            Explore quantitative finance through immersive visualizations. 
+            Transform complex mathematical concepts into intuitive, interactive experiences.
           </p>
-          
-          <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
+
+          {/* CTA Buttons */}
+          <div style={{ 
+            display: "flex", 
+            justifyContent: "center", 
+            gap: "20px", 
+            flexWrap: "wrap",
+            marginBottom: "60px"
+          }}>
             <button 
-              onClick={scrollToDemo}
+              onClick={scrollToProjects}
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-                color: "white",
-                border: "none",
-                padding: "16px 32px",
-                borderRadius: "14px",
-                fontSize: "1rem",
-                fontWeight: "600",
+                background: "linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%)",
+                color: "#000000",
+                border: "2px solid #000000",
+                padding: "18px 36px",
+                borderRadius: "16px",
+                fontSize: "1.1rem",
+                fontWeight: "700",
                 cursor: "pointer",
-                transition: "all 0.3s ease",
+                transition: "all 0.4s ease",
                 display: "flex",
-                alignItems: "center"
+                alignItems: "center",
+                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
+                backdropFilter: "blur(10px)"
               }}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = "translateY(-3px)";
-                e.currentTarget.style.boxShadow = "0 12px 25px rgba(59, 130, 246, 0.4)";
+                e.currentTarget.style.transform = "translateY(-4px) scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 20px 40px rgba(0, 0, 0, 0.4)";
+                e.currentTarget.style.background = "linear-gradient(135deg, #f8f8f8 0%, #e0e0e0 100%)";
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.3)";
+                e.currentTarget.style.background = "linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%)";
               }}
             >
-              <FaPlay style={{ marginRight: "8px" }} />
+              <FaPlay style={{ marginRight: "10px" }} />
               Start Exploring
             </button>
+
+            <a 
+              href="https://github.com/Yannaner/Visquanta"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: "rgba(255, 255, 255, 0.1)",
+                color: "white",
+                border: "2px solid rgba(255, 255, 255, 0.3)",
+                padding: "16px 32px",
+                borderRadius: "16px",
+                fontSize: "1.1rem",
+                fontWeight: "600",
+                textDecoration: "none",
+                transition: "all 0.4s ease",
+                display: "flex",
+                alignItems: "center",
+                backdropFilter: "blur(10px)"
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = "rgba(255, 255, 255, 0.2)";
+                e.currentTarget.style.transform = "translateY(-4px) scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 20px 40px rgba(255, 255, 255, 0.1)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.5)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.3)";
+              }}
+            >
+              <FaGithub style={{ marginRight: "10px" }} />
+              View Source
+              <FaExternalLinkAlt style={{ marginLeft: "8px", fontSize: "0.9rem" }} />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Enhanced About Section */}
-      <section style={{
-        padding: "60px 24px",
-        maxWidth: "1200px",
-        margin: "0 auto"
-      }}>
-        <div style={{
-          background: "rgba(255, 255, 255, 0.9)",
-          backdropFilter: "blur(10px)",
-          padding: "40px",
-          borderRadius: "20px",
-          boxShadow: "0 15px 30px rgba(0, 0, 0, 0.08)",
-          border: "1px solid rgba(255, 255, 255, 0.3)",
-          maxWidth: "900px",
-          margin: "0 auto",
-          textAlign: "center"
-        }}>
-          <h2 style={{
-            fontSize: "2rem",
-            fontWeight: "700",
-            color: "#1f2937",
-            margin: "0 0 20px 0"
-          }}>
-            About This Project
-          </h2>
-          <p style={{
-            color: "#4b5563",
-            fontSize: "1.05rem",
-            lineHeight: "1.7",
-            margin: "0 0 30px 0"
-          }}>
-            Visquanta transforms complex financial concepts into interactive visual experiences. 
-            Each simulation demonstrates different aspects of quantitative finance, from options pricing 
-            to stochastic processes, making mathematical theory tangible and explorable.
-          </p>
-          <div style={{
-            background: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)",
-            padding: "24px",
-            borderRadius: "16px",
-            marginTop: "24px"
-          }}>
-            <h3 style={{
-              color: "#3b82f6",
-              fontSize: "1.2rem",
-              fontWeight: "700",
-              margin: "0 0 16px 0"
-            }}>
-              What You'll Discover
-            </h3>
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "16px",
-              textAlign: "left"
-            }}>
-              <div style={{ padding: "8px 0" }}>
-                <IconWrapper size="1.2rem" style={{ marginRight: "8px", display: "inline-flex" }}>
-                  <FaRocket />
-                </IconWrapper>
-                <strong style={{ color: "#1f2937" }}>Options Ride</strong>
-                <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
-                  Gamified options trading experience
-                </span>
-              </div>
-              <div style={{ padding: "8px 0" }}>
-                <IconWrapper size="1.2rem" style={{ marginRight: "8px", display: "inline-flex" }}>
-                  <FaTree />
-                </IconWrapper>
-                <strong style={{ color: "#1f2937" }}>Binomial Trees</strong>
-                <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
-                  Dynamic probability visualization
-                </span>
-              </div>
-              <div style={{ padding: "8px 0" }}>
-                <IconWrapper size="1.2rem" style={{ marginRight: "8px", display: "inline-flex" }}>
-                  <FaFire />
-                </IconWrapper>
-                <strong style={{ color: "#1f2937" }}>Black-Scholes</strong>
-                <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
-                  Heat diffusion modeling
-                </span>
-              </div>
-              <div style={{ padding: "8px 0" }}>
-                <IconWrapper size="1.2rem" style={{ marginRight: "8px", display: "inline-flex" }}>
-                  <FaStar />
-                </IconWrapper>
-                <strong style={{ color: "#1f2937" }}>Ornstein-Uhlenbeck</strong>
-                <span style={{ color: "#6b7280", fontSize: "0.9rem", display: "block", marginLeft: "28px" }}>
-                  Mean reversion with spring damping
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced Demonstrations Grid */}
+      {/* Projects Section */}
       <section 
-        id="demonstrations"
+        id="projects"
         style={{
-          padding: "60px 24px 100px",
-          maxWidth: "1200px",
-          margin: "0 auto"
+          background: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)",
+          padding: "100px 24px",
+          position: "relative",
+          zIndex: 3
         }}
       >
-        <div style={{ textAlign: "center", marginBottom: "50px" }}>
-          <h2 style={{
-            fontSize: "2.2rem",
-            fontWeight: "700",
-            color: "#1f2937",
-            margin: "0 0 16px 0"
-          }}>
-            Interactive Demonstrations
-          </h2>
-          <p style={{
-            fontSize: "1.05rem",
-            color: "#6b7280",
-            maxWidth: "550px",
-            margin: "0 auto"
-          }}>
-            Click on any project below to explore financial mathematics in action
-          </p>
+        {/* Particles Background */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 1
+        }}>
+          <Particles 
+            particleCount={100}
+            particleColors={['#ffffff', '#cccccc', '#888888']}
+            moveParticlesOnHover={false}
+          />
         </div>
 
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-          gap: "32px"
+        <div style={{ 
+          maxWidth: "1200px", 
+          margin: "0 auto", 
+          position: "relative", 
+          zIndex: 2 
         }}>
-          {sims.map((sim, index) => (
-            <SimulationCard key={sim.title} sim={sim} index={index} />
-          ))}
+          <div style={{ textAlign: "center", marginBottom: "60px" }}>
+            <h2 style={{
+              fontSize: "2.8rem",
+              fontWeight: "800",
+              color: "white",
+              margin: "0 0 20px 0",
+              textShadow: "0 4px 20px rgba(0, 0, 0, 0.3)"
+            }}>
+              Interactive Demonstrations
+            </h2>
+            <p style={{
+              fontSize: "1.2rem",
+              color: "rgba(255, 255, 255, 0.7)",
+              maxWidth: "600px",
+              margin: "0 auto"
+            }}>
+              Explore financial mathematics through immersive, interactive experiences
+            </p>
+          </div>
+
+          <div style={{ position: 'relative' }}>
+            <ChromaGrid 
+              items={sims}
+              columns={3}
+              gap={32}
+            />
+          </div>
         </div>
       </section>
 
-      {/* Enhanced Footer */}
+      {/* Footer */}
       <footer style={{
-        background: "rgba(255, 255, 255, 0.9)",
-        backdropFilter: "blur(10px)",
-        borderTop: "1px solid rgba(229, 231, 235, 0.8)",
-        padding: "40px 24px",
-        textAlign: "center"
+        background: "linear-gradient(135deg, #000000 0%, #1a1a1a 100%)",
+        padding: "60px 24px 40px",
+        textAlign: "center",
+        position: "relative",
+        zIndex: 3
       }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <p style={{
-            color: "#6b7280",
-            fontSize: "0.9rem",
-            margin: "0 0 20px 0"
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "32px"
           }}>
-            Built as a personal exploration of financial mathematics and visualization
+            <div style={{
+              width: "48px",
+              height: "48px",
+              background: "linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%)",
+              borderRadius: "12px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginRight: "12px",
+              border: "2px solid #000000"
+            }}>
+              <FaChartLine style={{ color: "#000000", fontSize: "1.5rem" }} />
+            </div>
+            <div>
+              <h3 style={{
+                fontSize: "1.8rem",
+                fontWeight: "700",
+                color: "white",
+                margin: "0"
+              }}>
+                Visquanta
+              </h3>
+              <span style={{
+                fontSize: "0.9rem",
+                color: "rgba(255, 255, 255, 0.6)"
+              }}>
+                Financial Visualizations
+              </span>
+            </div>
+          </div>
+
+          <p style={{
+            color: "rgba(255, 255, 255, 0.7)",
+            fontSize: "1rem",
+            maxWidth: "500px",
+            margin: "0 auto 32px auto"
+          }}>
+            A personal exploration of quantitative finance through interactive visualizations. 
+            Making mathematical theory tangible and accessible.
           </p>
-          <a href="https://github.com/Yannaner/Visquanta" style={{
-            background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-            color: "white",
-            textDecoration: "none",
-            fontSize: "0.9rem",
-            fontWeight: "600",
-            padding: "12px 24px",
-            borderRadius: "10px",
-            transition: "all 0.3s ease",
-            display: "inline-block"
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 8px 20px rgba(59, 130, 246, 0.3)";
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "none";
-          }}
+
+          <a 
+            href="https://github.com/Yannaner/Visquanta" 
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+              color: "white",
+              textDecoration: "none",
+              fontSize: "1rem",
+              fontWeight: "600",
+              padding: "14px 28px",
+              borderRadius: "12px",
+              transition: "all 0.3s ease",
+              display: "inline-flex",
+              alignItems: "center",
+              boxShadow: "0 10px 30px rgba(59, 130, 246, 0.3)"
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = "translateY(-3px)";
+              e.currentTarget.style.boxShadow = "0 15px 40px rgba(59, 130, 246, 0.4)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 10px 30px rgba(59, 130, 246, 0.3)";
+            }}
           >
-            <FaGithub style={{ marginRight: "8px" }} />
+            <FaGithub style={{ marginRight: "10px" }} />
             View GitHub Repository
+            <FaExternalLinkAlt style={{ marginLeft: "8px", fontSize: "0.9rem" }} />
           </a>
-          <p style={{
-            color: "#9ca3af",
-            fontSize: "0.8rem",
-            margin: "20px 0 0 0"
+
+          <div style={{
+            marginTop: "40px",
+            paddingTop: "32px",
+            borderTop: "1px solid rgba(255, 255, 255, 0.1)"
           }}>
-            © 2025 Visquanta - Personal Project
-          </p>
+            <p style={{
+              color: "rgba(255, 255, 255, 0.5)",
+              fontSize: "0.9rem",
+              margin: "0"
+            }}>
+              © 2025 Visquanta - Built with passion for financial mathematics
+            </p>
+          </div>
         </div>
       </footer>
+
+      {/* Add bounce animation styles */}
+      <style>{`
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0) translateX(-50%);
+          }
+          40% {
+            transform: translateY(-10px) translateX(-50%);
+          }
+          60% {
+            transform: translateY(-5px) translateX(-50%);
+          }
+        }
+      `}</style>
     </div>
   );
 }

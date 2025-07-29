@@ -69,15 +69,42 @@ class RollerCoaster {
         });
         this.scene.add(this.cart);
 
-        // 3. Create a simple gate
+        // 3. Create an enhanced gate with pricing sign
+        const gateGroup = new THREE.Group();
+        
+        // Main gate
         const gateGeometry = new THREE.BoxGeometry(5, 4, 0.5);
         const gateMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513, metalness: 0.2, roughness: 0.8 });
         this.gate = new THREE.Mesh(gateGeometry, gateMaterial);
-        // Position the gate at the start of the track
-        this.gate.position.set(-30, 2, -2.5); // Adjust based on track start
-        this.gate.castShadow = true;
-        this.scene.add(this.gate);
-        this.gate.userData.isOpen = false; // Custom property to track state
+        this.gate.position.y = 2;
+        gateGroup.add(this.gate);
+        
+        // Price sign on gate
+        const signGeometry = new THREE.BoxGeometry(3, 1, 0.1);
+        const signMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF });
+        const priceSign = new THREE.Mesh(signGeometry, signMaterial);
+        priceSign.position.set(0, 3.5, 0.3);
+        gateGroup.add(priceSign);
+        
+        // Gate posts
+        const postGeometry = new THREE.BoxGeometry(0.3, 5, 0.3);
+        const postMaterial = new THREE.MeshStandardMaterial({ color: 0x654321 });
+        const leftPost = new THREE.Mesh(postGeometry, postMaterial);
+        leftPost.position.set(-2.5, 2.5, 0);
+        const rightPost = new THREE.Mesh(postGeometry, postMaterial);
+        rightPost.position.set(2.5, 2.5, 0);
+        gateGroup.add(leftPost);
+        gateGroup.add(rightPost);
+        
+        // Position the gate group at the start of the track
+        gateGroup.position.set(-30, 0, -2.5);
+        gateGroup.castShadow = true;
+        gateGroup.children.forEach(child => {
+            if (child.isMesh) child.castShadow = true;
+        });
+        this.scene.add(gateGroup);
+        this.gateGroup = gateGroup;
+        this.gate.userData.isOpen = false;
     }
 
     updateCartPosition(time) {
@@ -100,11 +127,10 @@ class RollerCoaster {
 
     openGate() {
         if (this.gate && !this.gate.userData.isOpen) {
-            // Animate gate opening (e.g., rotate upwards)
-            // For simplicity, we'll just move it up
-            this.gate.position.y += 3.5; 
+            // Animate gate opening (slide upwards)
+            this.gate.position.y += 3.5;
             this.gate.userData.isOpen = true;
-            console.log("Gate opened");
+            console.log("🎢 Gate opened - Call option exercised successfully!");
         }
     }
 
@@ -112,21 +138,20 @@ class RollerCoaster {
         if (this.gate && this.gate.userData.isOpen) {
             this.gate.position.y -= 3.5;
             this.gate.userData.isOpen = false;
-            console.log("Gate closed");
+            console.log("🚫 Gate closed - Ride shut down");
         }
     }
 
     // Method to be called when player exercises call option
     playerRides() {
         this.openGate();
-        // Potentially start a specific cart animation or player entering cart animation
-        console.log("Player is now riding the roller coaster!");
+        console.log("🎢 Player successfully exercised call option and is riding!");
     }
 
-    // Method for when ride is shut (e.g. rain)
+    // Method for when ride is shut (e.g. rain or option expired)
     shutDownRide() {
         this.closeGate();
-        console.log("Roller coaster ride shut down.");
+        console.log("🌧️ Roller coaster ride shut down due to weather or expired option.");
     }
 }
 

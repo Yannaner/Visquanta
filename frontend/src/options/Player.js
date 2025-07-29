@@ -59,49 +59,55 @@ class Player {
     reactToOutcome(outcome) {
         this.avatar.visible = true; // Ensure player is visible at start of reaction
         switch (outcome) {
-            case 'exercise': // Call option success
+            case 'exercise': // Call option - moving to gate
+            case 'exercise_success': // Call option success
                 this.state = 'walking_to_gate';
-                console.log('Player: Moving to roller coaster gate.');
+                console.log('Player: Moving to roller coaster gate for call option.');
                 this.moveTo(new THREE.Vector3(-28, 1, 0), () => { // Position near the gate
                     this.state = 'at_gate';
-                    console.log('Player: Arrived at gate. Attempting to ride.');
+                    console.log('Player: Arrived at gate. Attempting to exercise call option.');
                     if (this.rollerCoaster) {
                         this.rollerCoaster.playerRides(); // This will open the gate
                     }
                     // Delay "getting on" to allow gate to open visually
                     setTimeout(() => {
                         this.state = 'riding'; 
-                        // Player avatar will now be handled by update() to follow cart
-                        console.log('Player is now "on" the roller coaster!');
+                        console.log('Player successfully exercised call option and is riding!');
                     }, 1000); // 1 second delay for gate to open
                 });
                 break;
+                
             case 'payout': // Put option success (rain)
-                this.state = 'walking_away_refund';
-                console.log('Player: It rained! Getting a refund.');
-                if (this.rollerCoaster) {
-                    this.rollerCoaster.shutDownRide(); // Gate closes, ride shuts
+            case 'payout_success':
+            case 'payout_pending':
+                this.state = 'awaiting_weather';
+                console.log('Player: Bought put option, waiting to see if rain insurance pays out.');
+                // Player stays in place, watching the weather
+                if (outcome === 'payout_success') {
+                    console.log('Player: Put option paid out! Received insurance money.');
+                    // Could add animation showing player celebrating
                 }
-                // Player might move to a "refund booth" or just show happiness
-                // For now, just log and player stays
-                console.log('Player received a refund!');
                 break;
+                
             case 'expired': // Option expired worthless
+            case 'expired_timeout':
+            case 'expired_rain':
                 this.state = 'walking_away_loss';
                 this.avatar.visible = true; // Make sure player is visible to walk away
-                console.log('Player: Option expired worthless. Walking away (simulation).');
+                console.log('Player: Option expired or became worthless. Walking away disappointed.');
                 if (this.rollerCoaster) {
                     this.rollerCoaster.shutDownRide(); // Ensure gate is closed if it wasn't already
                 }
-                // Simulate walking away
-                this.moveTo(new THREE.Vector3(0, 1, 25), () => { // Move to a "sad" spot
-                    console.log('Player has walked away sadly.');
+                // Simulate walking away sadly
+                this.moveTo(new THREE.Vector3(0, 1, 30), () => { // Move to a "disappointed" spot
+                    console.log('Player has walked away, having learned about options risk management.');
                     this.state = 'idle';
                 });
                 break;
+                
             default:
                 this.state = 'idle';
-                console.log('Player: Unknown outcome or waiting.');
+                console.log('Player: Waiting or unknown outcome.');
         }
     }
 
